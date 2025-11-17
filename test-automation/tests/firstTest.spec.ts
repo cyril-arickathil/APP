@@ -100,7 +100,9 @@ test('reusing locators elements ', async ({page}) =>
   await passwordField.fill('secretPassword')
   await submitButton.click()
 
-  await expect(emailField).toHaveValue(/@/)
+  await expect(emailField).toHaveValue(/@/) //regex - regular expression
+  const placeholderEmailValue = await emailField.getAttribute('placeholder')
+  expect(placeholderEmailValue).toEqual('Email')
 
 })
 
@@ -115,16 +117,60 @@ test('extracting values from elements ', async ({page}) =>
    //string []
 const allLabelnamesOfRadio =
    await page.locator('nb-radio').allTextContents() //3 elements  ['', '', '']
-
+await page.locator('nb-radio').textContent()
    expect(allLabelnamesOfRadio).toContain('Option 1')
 
 
    //example to find text of all links in a page
-const allLinksNames =
-   await page.getByRole('link').allTextContents()
+   //textContents()
 
+   const allLinksNames =
+   await page.getByRole('link').allTextContents()   //either array / singular
+    console.log(allLinksNames)
+  
    expect(allLinksNames).toContain('Forms')
 })
+
+
+test('assertions', async ({page}) =>
+{
+     const basicForm = page.locator('nb-card').filter({hasText: 'Basic form'})
+  //2 asserstions types
+
+  //Generic assertion
+  const someValue = 10   // actual
+  expect.soft(someValue).toEqual(9)  //minor TC 
+
+  const text = await basicForm.getByRole('button').textContent()
+  expect(text).toEqual('Submit')
+
+  //locator assertion
+  await expect.soft(basicForm.getByRole('button')).toHaveText('submit')
+
+  //flaky tests - unreliable
+  // sometimes they pass , they fail
+
+//classification of assertions
+// hard and soft asserts
+
+
+})
+
+
+//decision to make this change
+
+//pre-condition is user logged in 
+//100 TCs
+
+//log in case - hard assertions
+//any soft asserts
+
+
+// Assignment 1 
+// 1. create your branch from main 
+// 2. branching name stratergy - feature/yourFirstName
+
+
 
 
 
