@@ -122,7 +122,12 @@ await page.locator('nb-radio').textContent()
 
 
    //example to find text of all links in a page
+<<<<<<< HEAD
    //textContents()
+=======
+   const allLinksNames =
+   await page.getByRole('link').allTextContents()
+>>>>>>> 767ba1f8f5bd55dfae2d00a41b27e6492a84a56e
 
    const allLinksNames =
    await page.getByRole('link').allTextContents()   //either array / singular
