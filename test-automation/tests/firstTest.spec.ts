@@ -120,7 +120,7 @@ const allLabelnamesOfRadio =
 
 
    //example to find text of all links in a page
-const allLinksNames =
+   const allLinksNames =
    await page.getByRole('link').allTextContents()
 
    expect(allLinksNames).toContain('Forms')
