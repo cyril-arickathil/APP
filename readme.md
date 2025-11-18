@@ -1,4 +1,17 @@
-## 🚀 Start the Development Server (pw-practice-app)
+## 🚀 Start the Development Server (📁 **pw-practice-app**)
+
+Navigate to the server folder:
+
+**Path:** `./pw-practice-app`
+
+```bash
+cd pw-practice-app
+npm install --force
+npm start
+```
+
+The Angular app will be available at:
+👉 **[http://localhost:4200](http://localhost:4200)**
 
 Navigate to the **pw-practice-app** folder and run the following commands:
 
@@ -23,7 +36,17 @@ Once the server starts, the app will be available at:
 
 ---
 
-## ⚡ Setup (test-automation)
+## ⚡ Setup (📁 **test-automation**)
+
+Navigate to the Playwright framework folder:
+
+**Path:** `./test-automation`
+
+```bash
+cd test-automation
+npm install --force
+npm start
+```
 
 Navigate to the **test-automation** folder and run:
 
