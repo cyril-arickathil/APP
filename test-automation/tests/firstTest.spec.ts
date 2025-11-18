@@ -89,6 +89,10 @@ test('locating parent elements ', async ({page}) =>
 
 })
 
+
+
+
+
 test('reusing locators elements ', async ({page}) =>
 {
   const basicForm = page.locator('nb-card').filter({hasText: 'Basic form'})
@@ -97,10 +101,50 @@ test('reusing locators elements ', async ({page}) =>
   const submitButton = basicForm.getByRole('button', {name: 'Submit'})
  
   await emailField.fill('email@gmail.com')
-  await passwordField.fill('secretPassword')
+  await passwordField.fill('secretPass@12')
   await submitButton.click()
 
-  await expect(emailField).toHaveValue(/@/)
+ // Regex for valid email format: local-part@domain.tld
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+
+ /*There is exactly one @.
+There is at least one dot after the domain.
+No spaces are allowed.
+*/
+
+ // await expect(emailField).toHaveValue(emailRegex)
+  try {
+    await expect(emailField).toHaveValue(emailRegex);
+    console.log('✅ Email meets complexity requirements');
+  } catch (error) {
+    console.error('❌ Email does not meet complexity requirements');
+    throw error;
+  }
+  
+// Password regex:
+  // - Minimum 8 characters
+  // - At least one uppercase letter
+  // - At least one number
+  // - At least one special character
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+ // await expect(passwordField).toHaveValue(passwordRegex);
+  
+try {
+    await expect(passwordField).toHaveValue(passwordRegex);
+    console.log('✅ Password meets complexity requirements');
+  } catch (error) {
+    console.error('❌ Password does not meet complexity requirements');
+    throw error;
+  }
+
+  const placeholderEmailFieldvalue = emailField.getAttribute('placeholder')
+
+  expect(placeholderEmailFieldvalue).toEqual('Email')
+  
+
+
 
 })
 
@@ -109,7 +153,7 @@ test('extracting values from elements ', async ({page}) =>
    const basicForm = page.locator('nb-card').filter({hasText: 'Basic form'})
    const buttonText = await basicForm.getByRole('button').textContent() //submit
 
-   expect(buttonText).toEqual('Submit')
+   expect(buttonText).toEqual('Submit') //verifying button text
 
    //all text values 
    //string []
@@ -127,5 +171,32 @@ const allLinksNames =
 })
 
 
+test('assertions',async({page}) =>
+{
+  //there 2 types of the assertions  
+  //1. Generic assertions
+  const someValue = 10
+  expect(someValue).toBeGreaterThan(5)
+  expect(someValue).toBeLessThan(20)
+  expect(someValue).toEqual(10)
+  expect(someValue).not.toEqual(15)
+  const basicForm = page.locator('nb-card').filter({hasText: 'Basic form'})
+   const buttonText = await basicForm.getByRole('button').textContent() //submit
+  const text = await basicForm.textContent()
+  expect(text).toContain('Submit')
 
+  //2. Playwright specific assertions
+  await expect(basicForm).toBeVisible()
+  await expect(basicForm.getByRole('button', {name: 'Submit'})).toBeEnabled()
 
+  //2. Locator assertions
+  await expect(basicForm.getByRole('button')).toHaveText('Submit')  
+
+  //soft assertins and hard assertions
+ // expect(someValue).toEqual(11) //hard assertion - stops execution if fails
+  expect.soft(someValue).toEqual(11) //soft assertion - continues execution even if fails
+  expect(someValue).not.toEqual(15)
+})
+
+//Assignment 1: crete branch from main
+//2. Branching name strategy: feature/Megha
