@@ -171,7 +171,39 @@ test('assertions', async ({page}) =>
 // 2. branching name stratergy - feature/yourFirstName
 
 
+test('user interactions ', async ({page}) =>
+{
+  await page.locator('nb-card', {hasText: 'Using the Grid'})
+  .getByRole('textbox', {name: 'Email'}).pressSequentially('yourEmail@gmail.com', {delay: 1 *1000})
+//1_000 time calculated is in millisec
+//1 sec 1000
 
+})
+
+test('wait - timeouts ', async ({page}) =>
+{
+  await page.waitForURL('http://localhost:4200/pages/forms/layouts')
+
+  await page.waitForLoadState('networkidle') //slowest way to load a page
+await page.waitForLoadState('domcontentloaded') 
+   const basicForm = page.locator('nb-card').filter({hasText: 'Basic form'})
+  const emailField = basicForm.getByRole('textbox', {name: 'Email'});
+  const passwordField = basicForm .getByRole('textbox', {name: 'Password'})
+  const submitButton = basicForm.getByRole('button', {name: 'Submit'})
+ 
+  await emailField.fill('email@gmail.com')
+  await page.waitForTimeout(5_000)
+  await passwordField.fill('secretPassword')
+  await submitButton.click()
+
+  await expect(emailField).toHaveValue(/@/) //regex - regular expression
+  const placeholderEmailValue = await emailField.getAttribute('placeholder')
+  expect(placeholderEmailValue).toEqual('Email')
+
+
+
+
+})
 
 
 
