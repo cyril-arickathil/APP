@@ -104,47 +104,7 @@ test('reusing locators elements ', async ({page}) =>
   await passwordField.fill('secretPass@12')
   await submitButton.click()
 
- // Regex for valid email format: local-part@domain.tld
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-
- /*There is exactly one @.
-There is at least one dot after the domain.
-No spaces are allowed.
-*/
-
- // await expect(emailField).toHaveValue(emailRegex)
-  try {
-    await expect(emailField).toHaveValue(emailRegex);
-    console.log('✅ Email meets complexity requirements');
-  } catch (error) {
-    console.error('❌ Email does not meet complexity requirements');
-    throw error;
-  }
-  
-// Password regex:
-  // - Minimum 8 characters
-  // - At least one uppercase letter
-  // - At least one number
-  // - At least one special character
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
- // await expect(passwordField).toHaveValue(passwordRegex);
-  
-try {
-    await expect(passwordField).toHaveValue(passwordRegex);
-    console.log('✅ Password meets complexity requirements');
-  } catch (error) {
-    console.error('❌ Password does not meet complexity requirements');
-    throw error;
-  }
-
-  const placeholderEmailFieldvalue = emailField.getAttribute('placeholder')
-
-  expect(placeholderEmailFieldvalue).toEqual('Email')
-  
-
-
+  await expect(emailField).toHaveValue(/@/)
 
 })
 
@@ -159,16 +119,60 @@ test('extracting values from elements ', async ({page}) =>
    //string []
 const allLabelnamesOfRadio =
    await page.locator('nb-radio').allTextContents() //3 elements  ['', '', '']
-
+await page.locator('nb-radio').textContent()
    expect(allLabelnamesOfRadio).toContain('Option 1')
 
 
    //example to find text of all links in a page
-const allLinksNames =
-   await page.getByRole('link').allTextContents()
+   //textContents()
 
+   const allLinksNames =
+   await page.getByRole('link').allTextContents()   //either array / singular
+    console.log(allLinksNames)
+  
    expect(allLinksNames).toContain('Forms')
 })
+
+
+test('assertions', async ({page}) =>
+{
+     const basicForm = page.locator('nb-card').filter({hasText: 'Basic form'})
+  //2 asserstions types
+
+  //Generic assertion
+  const someValue = 10   // actual
+  expect.soft(someValue).toEqual(9)  //minor TC 
+
+  const text = await basicForm.getByRole('button').textContent()
+  expect(text).toEqual('Submit')
+
+  //locator assertion
+  await expect.soft(basicForm.getByRole('button')).toHaveText('submit')
+
+  //flaky tests - unreliable
+  // sometimes they pass , they fail
+
+//classification of assertions
+// hard and soft asserts
+
+
+})
+
+
+//decision to make this change
+
+//pre-condition is user logged in 
+//100 TCs
+
+//log in case - hard assertions
+//any soft asserts
+
+
+// Assignment 1 
+// 1. create your branch from main 
+// 2. branching name stratergy - feature/yourFirstName
+
+
 
 
 test('assertions',async({page}) =>
