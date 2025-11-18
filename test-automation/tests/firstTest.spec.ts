@@ -7,7 +7,7 @@ test.beforeEach(async ({page}) =>
   await page.getByText('Form Layouts').click()
 
 })
-
+//test
 test('Locator syntaxes from pw', async({page}) =>
 {
   //basic locator strategies
