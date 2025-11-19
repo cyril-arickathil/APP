@@ -15,9 +15,8 @@
 ## Example Branch Workflow
 
 ```bash
-git checkout main
-git pull
 git checkout -b <your-branch-name>
+git pull origin main
 ```
 
 4. **Push your branch to GitHub:**
