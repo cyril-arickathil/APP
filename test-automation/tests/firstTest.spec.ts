@@ -203,3 +203,89 @@ test('assertions',async({page}) =>
 
 //Assignment 1: crete branch from main
 //2. Branching name strategy: feature/Megha
+
+
+test('Inline Form', async ({page}) =>
+{
+  const inlineForm = page.locator('nb-card').filter({hasText: 'Inline form'})
+  await inlineForm.getByRole('textbox', {name: 'Jane Doe'}).fill('John')
+  await inlineForm.getByRole('textbox', {name: 'Email'}).fill('abc@gmail.com')
+  await inlineForm.getByRole('button', {name: 'Submit'}).click()
+  await page.locator('.custom-checkbox').first().check()
+  expect.soft(page.locator('.custom-checkbox').first()).toBeChecked()
+  console.log('✅ Checkbox is checked in Inline Form')
+  
+
+})
+
+
+test('Block Form', async ({page}) =>
+{
+  const blockForm = page.locator('nb-card').filter({hasText: 'Block form'})
+  await blockForm.getByRole('textbox', {name: 'First Name'}).fill('John')
+  await blockForm.getByRole('textbox', {name: 'Last Name'}).fill('Shah')
+  await blockForm.getByRole('textbox', {name: 'Email'}).fill('abc@gmail.com')
+  await blockForm.getByRole('textbox', {name: 'Website'}).fill('www.abc.com')
+  await blockForm.getByRole('button', {name: 'Submit'}).click()
+
+})
+
+test('Form without labels', async ({page}) =>
+{
+  const FormwithoutLabels = page.locator('nb-card').filter({hasText: 'Form without labels'})
+  await FormwithoutLabels.getByRole('textbox', {name: 'Recipients'}).fill('John')
+  await FormwithoutLabels.getByRole('textbox', {name: 'Subject'}).fill('Testing')
+  await FormwithoutLabels.getByRole('textbox', {name: 'Message'}).fill('Playwright Testing')
+  await FormwithoutLabels.getByRole('button', {name: 'Send'}).click() 
+})
+
+test('Horizontal Form', async ({page}) =>
+{
+  const horizontalForm = page.locator('nb-card').filter({hasText: 'Horizontal form'})
+  await horizontalForm.getByRole('textbox', {name: 'Email'}).fill('abc@gmail.com')
+  await horizontalForm.getByRole('textbox', {name: 'Password'}).fill('Secret@123')
+  //await horizontalForm.getByRole('checkbox').filter({ has: horizontalForm.locator('.custom-checkbox') }).check()
+  const checkbox= horizontalForm.getByLabel('Remember me')
+  await checkbox.check({ force: true})
+  await horizontalForm.getByRole('button', {name: 'Sign in'}).click() 
+ try{
+  expect(checkbox).toBeChecked() 
+  console.log('✅ Checkbox is checked')
+ }
+ catch(error) {
+    console.error('❌ Checkbox is not checked')
+    throw error
+  }
+})
+
+
+test('user interactions ', async ({page}) =>
+{
+  await page.locator('nb-card', {hasText: 'Using the Grid'})
+  .getByRole('textbox', {name: 'Email'}).pressSequentially('yourEmail@gmail.com', {delay:1000})
+
+   await page.locator('nb-card', {has: page.locator('#inputEmail1')})
+   .getByRole('textbox', {name: 'Email'}).fill('yourEmail@gmail.com')
+
+   await page.locator('nb-card').filter({hasText: 'Inline form'}).click()
+
+
+})
+
+test('wait timeouts', async ({page}) =>
+{
+  await page.waitForLoadState('networkidle') //wait for page to load completely 
+  //await page.waitForLoadState('domcontentloaded') //wait for DOM content to load
+  const basicForm = page.locator('nb-card').filter({hasText: 'Basic form'})
+  const emailField = basicForm.getByRole('textbox', {name: 'Email'});
+  await page.waitForTimeout(3000) //static wait - not recommended
+  const passwordField = basicForm .getByRole('textbox', {name: 'Password'})
+  const submitButton = basicForm.getByRole('button', {name: 'Submit'})
+ 
+  await emailField.fill('email@gmail.com')
+  await passwordField.fill('secretPass@12')
+  await submitButton.click()
+})
+
+
+
