@@ -41,7 +41,7 @@ test('Using Grid 1', async({page}) => {
     await passwordInput.click();
     await passwordInput.type('MySecretPassword123');
 
-    await page.locator('nb-card nb-radio :text-is("Option 1")').click()
+    await page.locator('nb-card nb-radio :text-is("Option 1")').check({force: true})
     await page.locator('nb-card').getByRole('button', {name: 'Sign In'}).first().click()
 
 })
@@ -64,6 +64,30 @@ test('Basic Form', async({page}) => {
 
     const submitButton = page.getByRole('button', { name: 'SUBMIT' }).nth(1)
     await submitButton.click()
+
+})
+test('Form Without Labels', async({page}) => {
+
+    const recipientInput = page.getByPlaceholder('Recipients');
+
+    await recipientInput.click();
+    await recipientInput.type('jane@email.com')
+
+    const subjectInput = page.getByPlaceholder('Subject');
+
+    await subjectInput.click();
+    await subjectInput.type('Introduction')
+
+    const messageInput = page.getByPlaceholder('Message');
+
+    await messageInput.click();
+    await messageInput.type('I wanted to introduce myself.')
+
+    const sendButton = page.getByRole('button', { name: 'SEND' })
+    await sendButton.click()
+
+
+
 
 })
 
