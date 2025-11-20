@@ -1,4 +1,4 @@
-# Assignment: Test Case Writing & Locator Reuse
+# Assignment2: Test Case Writing & Locator Reuse
 
 ## Instructions
 

@@ -1,4 +1,4 @@
-Assignment: Git Account & Branch Creation
+Assignment1: Git Account & Branch Creation
 
 1. Create a GitHub account at https://github.com if you do not already have one.
 2. Clone your repository to your local machine.
