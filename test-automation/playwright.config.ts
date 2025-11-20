@@ -34,7 +34,8 @@ globalTimeout: 1*60*60*1000, //1 hour timeout
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     /* by default referes to 'data-testid' can be customised as per user requirement*/
-    testIdAttribute: 'data-pw'
+    testIdAttribute: 'data-pw',
+    ignoreHTTPSErrors: true
   },
 
   /* Configure projects for major browsers */

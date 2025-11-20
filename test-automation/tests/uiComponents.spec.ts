@@ -45,7 +45,66 @@ test.describe('form layouts page', () =>
   await page.getByText('Toastr').click()
 
   await page.getByRole('checkbox', {name: 'Hide on click'}).uncheck({force:true})
+await page.getByRole('checkbox', {name: 'Prevent arising of duplicate toast'}).check({force:true})
+
+//test whether all checkboxes are checked 
+const all_checkBox =
+page.getByRole('checkbox')  //3 elements
+
+for(const box of await all_checkBox.all())
+{
+    await box.uncheck({force: true})
+    expect(await box.isChecked()).toBeFalsy()
+}
   })
+
+test('handle dropdowns', async ({page}) =>
+{
+  const dropMenu = page.locator('ngx-header nb-select')
+  await dropMenu.click();
+
+// <ul>
+// <li>
+// <li>
+// </ul>
+//page.getByRole('list').getByRole('listitem')
+
+const optionList = page.getByRole('list').locator('nb-option')
+
+await expect(optionList).toHaveText(["Light", "Dark", "Cosmic", "Corporate"])
+
+await optionList.filter({hasText: 'Cosmic'}).click()
+
+const header = page.locator('nb-layout-header')
+
+expect(header).toHaveCSS('background-color', 'rgb(50, 50, 89)')
+
+await dropMenu.click();
+
+const colors =
+{
+  "Light": "rgb(255, 255, 255)" ,
+  "Dark":  "rgb(21, 26, 48)",
+  "Cosmic": "rgb(50, 50, 89)",
+  "Corporate": "rgb(255, 255, 255)" 
+}
+//colors['Light'] // 
+await dropMenu.click();
+for(const color in colors)
+{
+  await optionList.filter({hasText: color}).click()
+  const header = page.locator('nb-layout-header')
+
+expect(header).toHaveCSS('background-color', colors[color])
+await dropMenu.click()
+
+}
+
+//nb-tooltip
+
+})
+
+
 
 
 })
