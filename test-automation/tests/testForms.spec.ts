@@ -21,7 +21,7 @@ test('Inline Form', async({page}) =>{
     await emailInput.type('jane@email.com')
 
     const checkbox = page.locator('.custom-checkbox').nth(0)
-    await checkbox.click()
+    await checkbox.check({force : true})
     await expect(checkbox).toHaveClass(/checked/)
 
     const submitButton = page.getByRole('button', { name: 'SUBMIT' }).nth(0)
@@ -59,7 +59,7 @@ test('Basic Form', async({page}) => {
     await passwordInput.type('MySecretPassword123');
 
     const checkbox = page.locator('.custom-checkbox').nth(1)
-    await checkbox.click()
+    await checkbox.check({force : true})
     await expect(checkbox).toHaveClass(/checked/)
 
     const submitButton = page.getByRole('button', { name: 'SUBMIT' }).nth(1)
@@ -86,10 +86,56 @@ test('Form Without Labels', async({page}) => {
     const sendButton = page.getByRole('button', { name: 'SEND' })
     await sendButton.click()
 
+})
 
+test('Block Form', async({page}) => {
 
+    const firstNametInput = page.getByPlaceholder('First Name');
+
+    await firstNametInput.click();
+    await firstNametInput.type('John')
+
+    const lastNameInput = page.locator('#inputLastName');
+
+    await lastNameInput.click();
+    await lastNameInput.type('Smith')
+    const emailInput = page.locator('#inputEmail');
+
+    await emailInput.click();
+    await emailInput.type('example@123.com')
+
+    const websiteInput = page.locator('#inputWebsite');
+
+    await websiteInput.click();
+    await websiteInput.type('https://example.com')
+
+    const submitButton = page.getByRole('button', { name: 'SUBMIT' }).nth(2)
+    await submitButton.click()
 
 })
+
+test('Horizontal', async({page}) => {
+
+    const emailInput = page.locator('#inputEmail3');
+
+    await emailInput.click();
+    await emailInput.type('example@123.com')
+
+    const passwordInput = page.locator('#inputPassword3');
+
+    await passwordInput.click();
+    await passwordInput.type('Test123')
+
+    const checkbox = page.locator('.custom-checkbox').nth(2)
+    await checkbox.check({force : true})
+    await expect(checkbox).toHaveClass(/checked/)
+
+    const signInButton = page.getByRole('button', { name: 'SIGN IN' }).nth(1)
+    await signInButton.click()
+    
+
+})
+
 
     
 
