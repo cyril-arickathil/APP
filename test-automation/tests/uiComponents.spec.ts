@@ -99,10 +99,50 @@ expect(header).toHaveCSS('background-color', colors[color])
 await dropMenu.click()
 
 }
-
 //nb-tooltip
 
 })
+ test('tool tips', async ({page}) =>
+  {
+    await page.getByText('Modal & Overlays').click()
+  await page.getByText('Tooltip').click()
+
+
+    const toolTipCard = page.locator('nb-card', {hasText: 'Tooltip Placements'})
+    await toolTipCard.getByRole('button', {name: 'Top'}).hover()
+
+    page.getByRole('tooltip')
+
+    const toolTipText =
+    await page.locator('nb-tooltip').textContent()
+
+    expect(toolTipText).toEqual('This is a tooltip')
+
+  })
+
+  test('dialog box', async ({page}) =>
+  {
+    await page.getByText('Tables & Data').click()
+  await page.getByText('Smart Table').click()
+//by default pw dismisses dialog box
+
+
+page.on('dialog', dialog =>
+{
+ // dialog.dismiss()// cancel
+    expect(dialog.message()).toEqual('Are you sure you want to delete?')
+    dialog.accept() //OK
+})
+
+
+  await page.getByRole('table').locator('tr', {hasText: '@mdo'})
+  .locator('.nb-trash').click()  // trigger for dialog box
+
+//
+
+
+  })
+
 
 
 
