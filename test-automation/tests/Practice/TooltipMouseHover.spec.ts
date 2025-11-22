@@ -8,9 +8,12 @@ test.beforeEach(async ({page})=>
 
 test('TooltipMouseHover',async ({page}) =>
 {
-    const tooltipButton = page.locator('button[nbtooltip="This is a tooltip message"]');
-    await tooltipButton.hover();
-    const tooltip = page.locator('nb-tooltip');
+    const tooltipButton = page.locator('nb-card', {hasText: 'Tooltip Placement'});
+    await tooltipButton.getByRole('button', {name: 'Top'}).hover();
+    
+    const tooltip = page.locator('nb-tooltip').textContent();
     await page.waitForTimeout(3000);
-    await expect(tooltip).toHaveText('This is a tooltip message');
+    expect(tooltip).toBe('This is tooltip');
 });
+
+
