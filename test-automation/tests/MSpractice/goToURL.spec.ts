@@ -4,7 +4,6 @@ test ('login to IOT page' ,async({page}) =>
     {
         await page.goto('http://localhost:4200/pages/iot-dashboard');
         await page.waitForTimeout(3000);
-        
-        
-        
+        await page.close();
     }); 
+
