@@ -13,6 +13,7 @@ test('Locator syntaxes from pw', async({page}) =>
   //basic locator strategies
 //by tag names
 await page.locator('input').first().click()
+await page.locator('input').nth(6).click()
 
 //by ID #
 await page.locator('#inputEmail1').click()
