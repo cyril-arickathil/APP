@@ -1,5 +1,6 @@
 import {test} from '@playwright/test';
 import { NavigationPagee } from '../../pages/navigation.page';
+import {locators} from '../../pages/util.page';
 
 test.beforeEach(async ({ page}) => {
   await page.goto('http://localhost:4200/');
@@ -13,11 +14,15 @@ test('navigating to form layout page',async ({page}) =>
 
     const NavigateTo = new NavigationPagee(page);
     await NavigateTo.formLayoutPage();
-    
-    await page.locator('nb-card form').getByPlaceholder('Jane Doe').fill("Madhu M");
-    await page.locator('form').filter({ hasText: 'Remember meSubmit' }).getByPlaceholder('Email').fill("Madhu@gmail.com");
+
+   const inlineFormLocator = new locators(page);
+   await inlineFormLocator.inlineFormLocators('Madhu','Madhu@gmail.com');
+
+
     await page.waitForTimeout(3000);
     await page.close(); // Close the specific page
 }    
 );
+
+test
 
