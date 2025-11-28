@@ -142,10 +142,102 @@ page.on('dialog', dialog =>
 
 
   })
+  test('web tables 1 ', async ({page}) =>
+  {
+    await page.getByText('Tables & Data').click()
+  await page.getByText('Smart Table').click()
+
+  //locate a row , <tr>
+  const tableRow = page.getByRole('row', {name: '@snow'})
+
+  await tableRow.locator('.nb-edit').click()
+
+  await page.locator('input-editor').getByPlaceholder('First Name').fill('Rahul')
+  await page.locator('input-editor').getByPlaceholder('Last Name').fill('S')
+  await page.locator('input-editor').getByPlaceholder('Age').fill('25')
+  await page.locator('.nb-checkmark').click()
+
+  //test the filter for different ages
+
+  const ages = ['20', '30', '40', '100']
 
 
+  for(let age of ages)
+  {
+        await page.locator('input-filter').getByPlaceholder('Age').clear()
 
+    await page.locator('input-filter').getByPlaceholder('Age').fill(age)
+    await page.waitForTimeout(1000)  //wait for table to refresh for 0.5secs
+
+    //page.getByRole('row')
+    const ageRows = page.getByRole('row')  //all rows
+
+    for(let row of await ageRows.all())
+    {
+        const cellValue = row.locator('td').last()
+        console.log(cellValue)
+
+        expect(await cellValue.textContent()).toEqual(age)
+    }
+  }
+})
+
+test('datepicker section', async ({page}) =>
+  {
+  await page.getByText('Forms').click()
+  await page.getByText('Datepicker').click()
+
+  const calenderInput =  page.getByPlaceholder('Form Picker')
+
+  await calenderInput.click()
+
+  //date class
+  let date = new Date()
+  date.setDate(date.getDate() +7) //current date + 1 day
+  //here date now will be set as 26
+//Nov 1, 2025
+const expectedDate = date.getDate().toString()
+//Nov , Dec , Jan
+const expectedMonth = date.toLocaleString('En-US', {month: 'short'})
+const expectedYear = date.getFullYear()
+
+const dateAssertion = `${expectedMonth} ${expectedDate}, ${expectedYear}`
+  //by attribute
+//page.locator('[type="email"]')
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, {exact: true}).click()
+
+    
+
+    await expect(calenderInput).toHaveValue(dateAssertion)
+
+  })
+
+  test('slider component', async ({page})=>
+  {
+    await page.getByTitle('IoT Dashboard').click()
+      // cx, cy
+    const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
+    await tempGauge.evaluate( circle =>
+    {
+      circle.setAttribute('cx', '232.63')
+      circle.setAttribute('cy', '232.63')
+    //  circle.getAttribute('cx')
+    }
+    )
+    await tempGauge.click()
+    //30 degree
+
+
+  })
 
 
 })
 
+
+// const valentines = new Date();
+// const day = valentines.getDay();  //2
+// day.toLocaleString('en-US', {weekday: 'long'}) // "Monday"
+//                       0       1
+// const dayNames = ["Sunday", "Monday", "Tuesday" /* , … */];
+// dayNames[0] 
+// console.log(dayNames[day]); // "Monday"
