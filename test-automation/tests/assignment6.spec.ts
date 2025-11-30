@@ -20,9 +20,9 @@ test('Select date in Common Datepicker',async ({page}) =>
 
      await calendarInput.click()
 
-  // Get future date (7 days from today)
+  // Get future date 
     const date = new Date();
-    date.setDate(date.getDate() + 1);
+    date.setDate(date.getDate() + 2);
 
 
     const expectedDay = date.getDate().toString();
@@ -36,6 +36,8 @@ test('Select date in Common Datepicker',async ({page}) =>
 
   
 })
+
+
 
 
 
