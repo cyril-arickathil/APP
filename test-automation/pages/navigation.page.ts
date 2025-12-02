@@ -1,6 +1,6 @@
 import {Locator, Page} from '@playwright/test'
 
-export class NavigationPagee
+export class NavigationPage
 {
     readonly page: Page
     readonly formLayoutLocator: Locator
