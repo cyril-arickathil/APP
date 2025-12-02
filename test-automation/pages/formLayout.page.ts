@@ -10,9 +10,25 @@ export class FormLayoutsPage
         this.page = page;
     }
 
+
+
+    async inlineFormLocators(name: string,mailId: string)
+{
+    const inlineFormNameInput = this.page.locator('nb-card', {hasText: "Inline form"}).getByPlaceholder('Jane Doe');
+
+    inlineFormNameInput.fill(name);
+    
+
+
+
+  //this.page.locator('form').getByRole('textbox', { name: 'Jane Doe' }).fill(name);
+  //this.page.locator('form').filter({ hasText: 'Remember meSubmit' }).getByPlaceholder('Jane Doe').fill(name);
+  this.page.locator('form').filter({ hasText: 'Remember meSubmit' }).getByPlaceholder('Email').fill(mailId);
+}
+
     async submitUsingtheGridForm(email: string, password: string, Option?: string)
     {
-
+     
     }
 
 }

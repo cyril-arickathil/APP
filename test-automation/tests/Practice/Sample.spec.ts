@@ -32,3 +32,4 @@ test('Charts',async ({page}) =>
     await page.close(); // Close the specific page
 }    
 );
+

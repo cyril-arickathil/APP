@@ -12,12 +12,16 @@ readonly page : Page;
 
 async inlineFormLocators(name: string,mailId: string)
 {
-  this.page.locator('form').filter({ hasText: 'Remember meSubmit' }).getByPlaceholder('Jane Doe').fill(name);
+  //this.page.locator('form').getByPlaceholder('Jane Doe').fill(name);
+  this.page.locator('form').getByPlaceholder('Jane Doe').fill(name);
   this.page.locator('form').filter({ hasText: 'Remember meSubmit' }).getByPlaceholder('Email').fill(mailId);
 }
-
-//const Email1 = this.page.locator('form').filter({ hasText: 'Remember meSubmit' }).getByPlaceholder('Email');
-
-
+async UsingGridFormLocators(Email: string,password: string)
+{
+  this.page.locator('#inputEmail1').fill(Email);
+  this.page.locator('#inputPassword2').fill(password);
+}
 
 }
+
+

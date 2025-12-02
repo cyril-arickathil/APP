@@ -1,5 +1,5 @@
 import {test} from '@playwright/test';
-import { NavigationPagee } from '../../pages/navigation.page';
+import { NavigationPage } from '../../pages/navigation.page';
 import {locators} from '../../pages/util.page';
 
 test.beforeEach(async ({ page}) => {
@@ -12,7 +12,7 @@ test.beforeEach(async ({ page}) => {
 test('navigating to form layout page',async ({page}) =>
 {       
 
-    const NavigateTo = new NavigationPagee(page);
+    const NavigateTo = new NavigationPage(page);
     await NavigateTo.formLayoutPage();
 
    const inlineFormLocator = new locators(page);
