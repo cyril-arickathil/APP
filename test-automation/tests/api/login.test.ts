@@ -22,16 +22,32 @@ test('Add user in contact list app', async ({ page, request }) => {
       data: {
         firstName: 'madhuMS',
         lastName: 'mmsr',
-        email: 'test22@test.com',
+        email: 'test22@test1.com',
         password: 'Test@123',
       },
     }
   );
 
   const responseBody = await response.json();
-  console.log(responseBody.token);
+  //console.log(responseBody.token );
 
+const TOKEN = responseBody.token;
+console.log("Token is : "+TOKEN);
+
+const userDetailsResponse = await request.get('https://thinking-tester-contact-list.herokuapp.com/users/me',
+{
+
+  headers: {
+    Authorization: `Bearer ${TOKEN}`,
+  }
+}
+)
+console.log(userDetailsResponse.json());
 });
+
+
+
+
 
 
 
