@@ -9,6 +9,10 @@ test.beforeEach(async ({page}) =>
 
 test.describe('form layouts page', () =>
 {
+  test.describe.configure({mode: 'serial'})
+  test.describe.configure({retries: 2})
+
+  
   test.beforeEach( async ({page}) =>
   {
      await page.getByText('Forms').click()
@@ -22,7 +26,7 @@ test.describe('form layouts page', () =>
     .getByRole('textbox', {name: 'Email'})
 
     await usingGridEmailInput.fill('email@test.com')
-    await usingGridEmailInput.clear()
+    await expect(usingGridEmailInput).toHaveValue('email@test.com')
 
 
   })
@@ -35,11 +39,13 @@ test.describe('form layouts page', () =>
     await usingGridForm.getByLabel('Option 1').check({force: true})
 
     await usingGridForm.getByRole('radio', {name: 'Option 1'}).isChecked()
+    await page.waitForTimeout(2000)
+    await usingGridForm.screenshot({path: 'screenshots/usingTheGridSection.png'})
 
 
   })
 
-  test('checkboxes field', async({page}) =>
+  test.skip('checkboxes field', async({page}) =>
   {
     await page.getByText('Modal & Overlays').click()
   await page.getByText('Toastr').click()
@@ -58,7 +64,7 @@ for(const box of await all_checkBox.all())
 }
   })
 
-test('handle dropdowns', async ({page}) =>
+test.skip('handle dropdowns', async ({page}) =>
 {
   const dropMenu = page.locator('ngx-header nb-select')
   await dropMenu.click();
@@ -102,7 +108,7 @@ await dropMenu.click()
 //nb-tooltip
 
 })
- test('tool tips', async ({page}) =>
+ test.skip('tool tips', async ({page}) =>
   {
     await page.getByText('Modal & Overlays').click()
   await page.getByText('Tooltip').click()

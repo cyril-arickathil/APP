@@ -8,6 +8,7 @@
     "test": "npx playwright test",
     "retry-failed": "npx playwright test --retries=3",
     "pageobject-chrome": "npx playwright test usingPOM.spec.ts --project=chromium",
+    "ui-components-test": "npx playwright test tests/uiComponents.spec.ts --project=chromium",
     "api-tests": "npx playwright test tests/api/login.test.ts",
     "codegen": "npx playwright codegen"
   },

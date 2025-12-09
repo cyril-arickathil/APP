@@ -37,6 +37,7 @@ test('navigating to form layout page and submit form', async ({page})=>
     await navigateTo.formLayoutsPage()
     await onFormLayouts.submitUsingTheGridForm('test@email.com', randomPassword, 'Option 1')
     await onFormLayouts.submitUisngInLineForm(randomFullName, randomEmail,true )
+    await page.screenshot({path: 'screenshots/formSubmission_page.png', fullPage: true})
 })
 
 test('example here', async ({page})=>

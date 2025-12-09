@@ -14,7 +14,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
 
   timeout: 40*1000,
-globalTimeout: 1*60*60*1000, //1 hour timeout
+  globalTimeout: 1*60*60*1000, //1 hour timeout
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -35,7 +35,12 @@ globalTimeout: 1*60*60*1000, //1 hour timeout
     trace: 'on',
     /* by default referes to 'data-testid' can be customised as per user requirement*/
     testIdAttribute: 'data-pw',
-    ignoreHTTPSErrors: true
+    ignoreHTTPSErrors: true,
+    video: 
+    {
+      mode: 'retain-on-failure',
+      size: { width: 1080, height: 1080}
+    }
   },
 
   /* Configure projects for major browsers */

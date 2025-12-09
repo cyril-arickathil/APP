@@ -32,5 +32,3 @@ test("mocks a fruit and doesn't call api", async ({ page }) => {
   // Assert that the Strawberry fruit is visible
   await expect(page.getByText('Strawberry')).toBeVisible();
 });
-
-
