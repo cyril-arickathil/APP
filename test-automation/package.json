@@ -4,13 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "ui" : "npx playwright test --ui"
+    "ui": "npx playwright test --ui",
+    "test": "npx playwright test",
+    "retry-failed": "npx playwright test --retries=3",
+    "pageobject-chrome": "npx playwright test usingPOM.spec.ts --project=chromium",
+    "api-tests": "npx playwright test tests/api/login.test.ts",
+    "codegen": "npx playwright codegen"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.10.0"
   }

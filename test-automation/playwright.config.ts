@@ -20,8 +20,8 @@ globalTimeout: 1*60*60*1000, //1 hour timeout
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  /* Retry twice on CI , once when running in local */
+  retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -40,6 +40,23 @@ globalTimeout: 1*60*60*1000, //1 hour timeout
 
   /* Configure projects for major browsers */
   projects: [
+     {
+      name: 'setup',
+      use: { ...devices['Desktop Chrome'] ,
+         baseURL: 'https://thinking-tester-contact-list.herokuapp.com' 
+        },
+      testMatch: 'auth.setup.ts'
+      
+    },
+     {
+      name: 'API tests',
+      dependencies: ['setup'],
+      use: { ...devices['Desktop Chrome'] ,
+         baseURL: 'https://thinking-tester-contact-list.herokuapp.com' 
+        },
+      testDir: './tests/api',
+      
+    },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
