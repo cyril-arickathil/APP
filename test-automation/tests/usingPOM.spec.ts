@@ -8,7 +8,7 @@ test.beforeEach(async ({page}) =>
   await page.goto('/')
 })
 
-test('navigating to form layout page @smoke', async ({page})=>
+test('navigating to form layout page', async ({page})=>
 {
     const navigateTo = new NavigationPage(page)
     await navigateTo.formLayoutsPage()

@@ -26,7 +26,13 @@ export default defineConfig<TestOptions>({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['json', {outputFile: 'test-results/json-reports.json'}],
+    ['junit', {outputFile: 'test-results/junit-report.xml'}],
+    ['allure-playwright'],
+    ['@estruyf/github-actions-reporter', {outputFile: 'test-results/report-gha.log'}],
+  
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */

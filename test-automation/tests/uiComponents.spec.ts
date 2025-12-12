@@ -2,7 +2,7 @@ import {test, expect} from '@playwright/test';
 
 test.beforeEach(async ({page}) =>
 {
-  await page.goto('/')
+  await page.goto('http://localhost:4200/')
  
 
 })
@@ -36,11 +36,16 @@ test.describe('form layouts page', () =>
     const usingGridForm =
     page.locator('nb-card', {hasText: "Using the Grid"})
  
-    await usingGridForm.getByLabel('Option 1').check({force: true})
+    await usingGridForm.getByLabel('Option 2').check({force: true})
 
-    await usingGridForm.getByRole('radio', {name: 'Option 1'}).isChecked()
+    await usingGridForm.getByRole('radio', {name: 'Option 2'}).isChecked()
     await page.waitForTimeout(2000)
-    await usingGridForm.screenshot({path: 'screenshots/usingTheGridSection.png'})
+
+    //visual check - pixel by pixel comparison
+    await expect(usingGridForm).toHaveScreenshot({maxDiffPixelRatio: 0.01})
+   // await usingGridForm.screenshot({path: 'screenshots/usingTheGridSection.png'})
+
+
 
 
   })
