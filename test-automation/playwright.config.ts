@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import type {TestOptions} from './testOptions';
 
 /**
  * Read environment variables from file.
@@ -11,10 +12,10 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestOptions>({
 
   timeout: 40*1000,
-globalTimeout: 1*60*60*1000, //1 hour timeout
+  globalTimeout: 1*60*60*1000, //1 hour timeout
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -25,21 +26,55 @@ globalTimeout: 1*60*60*1000, //1 hour timeout
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['json', {outputFile: 'test-results/json-reports.json'}],
+    ['junit', {outputFile: 'test-results/junit-report.xml'}],
+    ['allure-playwright'],
+    ['@estruyf/github-actions-reporter', {outputFile: 'test-results/report-gha.log'}],
+  
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
+    //baseURL: 'http://localhost:4200',
+    // baseURL: process.env.DEV === '1' ? 'http://localhost:4201' 
+    // : process.env.STG === '1' ? 'http://stg:4202' 
+    // : process.env.LOCAL === '1' ? 'http://localhost:4200'
+
+    globalUrl : 'https://www.globalsqa.com/demo-site/draganddrop/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     /* by default referes to 'data-testid' can be customised as per user requirement*/
     testIdAttribute: 'data-pw',
-    ignoreHTTPSErrors: true
+    ignoreHTTPSErrors: true,
+    video: 
+    {
+      mode: 'retain-on-failure',
+      size: { width: 1080, height: 1080}
+    }
   },
 
   /* Configure projects for major browsers */
   projects: [
+     {
+      name: 'dev',
+      use: { ...devices['Desktop Chrome'],
+          baseURL: 'http://dev:4200'
+       },
+    },
+     {
+      name: 'stg',
+      use: { ...devices['Desktop Chrome'],
+          baseURL: 'http://stg:4200'
+       },
+    },
+     {
+      name: 'local',
+      use: { ...devices['Desktop Chrome'],
+          baseURL: 'http://localhost:4200'
+       },
+    },
      {
       name: 'setup',
       use: { ...devices['Desktop Chrome'] ,
@@ -71,6 +106,12 @@ globalTimeout: 1*60*60*1000, //1 hour timeout
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
+    {
+      name: 'mobile',
+      use:{
+        ...devices['iPhone 14 Pro Max']
+      }
+    }
 
     /* Test against mobile viewports. */
     // {

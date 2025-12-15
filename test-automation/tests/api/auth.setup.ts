@@ -16,3 +16,7 @@ setup('authenticate user', async ({request}) =>
 
   const TOKEN = responseBody.token
 })
+
+
+//terinary operator
+

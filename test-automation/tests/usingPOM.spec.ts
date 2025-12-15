@@ -5,7 +5,7 @@ import {faker} from '@faker-js/faker'
 
 test.beforeEach(async ({page}) =>
 {
-  await page.goto('http://localhost:4200/')
+  await page.goto('/')
 })
 
 test('navigating to form layout page', async ({page})=>
@@ -18,7 +18,8 @@ test('navigating to form layout page', async ({page})=>
     await navigateTo.toasterPage()
 })
 
-test('navigating to form layout page and submit form', async ({page})=>
+test('navigating to form layout page and submit form',{tag: '@sanity'},
+     async ({page})=>
 {
     const navigateTo = new NavigationPage(page)
     const onFormLayouts = new FormLayoutsPage(page)
@@ -37,9 +38,11 @@ test('navigating to form layout page and submit form', async ({page})=>
     await navigateTo.formLayoutsPage()
     await onFormLayouts.submitUsingTheGridForm('test@email.com', randomPassword, 'Option 1')
     await onFormLayouts.submitUisngInLineForm(randomFullName, randomEmail,true )
+    await page.screenshot({path: 'screenshots/formSubmission_page.png', fullPage: true})
 })
 
-test('example here', async ({page})=>
+test('example here', {tag: ['@regression', '@smoke']},
+    async ({page})=>
 {
     const navigateTo = new NavigationPage(page)
     
