@@ -3,6 +3,7 @@ import { test } from '../testOptions'
 
 test('drag and drop test', async ({page, globalUrl})=>
 {
+  //
   await page.goto(globalUrl)
 
   const frame =
