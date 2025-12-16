@@ -10,7 +10,7 @@ test.beforeEach(async ({page}) =>
 //test
 test('Locator syntaxes from pw', async({page}) =>
 {
-  //basic locator strategies
+  //basic locator 
 //by tag names
 await page.locator('input').first().click()
 
